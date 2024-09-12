@@ -13,7 +13,7 @@ type Order struct {
 	Employee Employee `gorm:"foreignKey:employee_id"`
 
 	Status_OrderID 		uint `json:"status_order_id"`
-	Status_Order Status_Order `gorm:"foreignKey:StatusOrderID"`
+	Status_Order Status_Order `gorm:"foreignKey:Status_OrderID"`
 
 
 	Order_Product []Order_Product `gorm:"foreignKey:OrderID"`
