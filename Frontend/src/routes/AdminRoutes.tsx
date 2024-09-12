@@ -14,6 +14,7 @@ const Employee = Loadable(lazy(() => import("../components/Pages/Employee/employ
 const CreateEmployee = Loadable(lazy(() => import("../components/Pages/Employee/create")));
 const EditEmployee = Loadable(lazy(() => import("../components/Pages/Employee/edit")));
 const Order = Loadable(lazy(() => import("../components/Pages/order/order")))
+const OrderDetail = Loadable(lazy(() => import("../components/Pages/order/detail/detail")))
 
 const AdminRoutes = (isLoggedIn : boolean): RouteObject => {
   return {
@@ -26,7 +27,16 @@ const AdminRoutes = (isLoggedIn : boolean): RouteObject => {
       },
       {
         path: "/order",
-        element: <Order />,
+        children: [
+          {
+            path: "/order",
+            element: <Order />,
+          },
+          {
+            path: "/order/detail/:id",
+            element: <OrderDetail />
+          }
+        ]
       },
       {
         path: "/member",
