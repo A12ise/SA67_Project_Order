@@ -22,5 +22,7 @@ type Booking struct {
 
     EmployeeID        uint     `json:"employee_id"`
     Employee          Employee  `gorm:"foreignKey:EmployeeID"`
+
+    Order []Order `gorm:"foreignKey:BookingID"`
     
 }
