@@ -14,13 +14,13 @@ type Employee struct{
 
 	// FK from Gender
 	GenderID		uint
-	Gender			Gender 		`gorm:"foreignKey: gender_id"`
+	Gender			Gender 		`gorm:"foreignKey: GenderID"`
 	// FK from Position
 	PositionID		uint
-	Position		Position 	`gorm:"foreignKey: position_id"`
+	Position		Position 	`gorm:"foreignKey: PositionID"`
 
-	Members			[]Member	`gorm:"foreignKey:employee_id"`
-	Booking 		[]Booking	`gorm:"foreignKey:employee_id"`
-	Order 			[]Order 	`gorm:"foreignKey:employee_id"`
-	Product 		[]Product 	`gorm:"foreignKey:employee_id"`
+	Members			[]Member	`gorm:"foreignKey:EmployeeID"`
+	Booking 		[]Booking	`gorm:"foreignKey:EmployeeID"`
+	Order 			[]Order 	`gorm:"foreignKey:EmployeeID"`
+	Product 		[]Product 	`gorm:"foreignKey:EmployeeID"`
 }
