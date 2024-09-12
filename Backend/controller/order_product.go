@@ -59,10 +59,10 @@ func GetOrderProductsByOrderID(c *gin.Context) {
     db := config.DB()
 
     // Use the order ID in the query to filter the records
-    results := db.Raw(`
+    results := db.Preload("Order").Raw(`
         SELECT * FROM Order_Products
-        LEFT JOIN "order" ON "order".order_id = order_product.order_id 
-        WHERE Order_Product.order_id = ?`, ID).Scan(&orderproduct)
+        INNER JOIN orders ON orders.id = order_products.order_id 
+        WHERE Order_Products.order_id = ?`, ID).Scan(&orderproduct)
 
     // Check for errors in the query
     if results.Error != nil {
