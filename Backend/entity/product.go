@@ -10,9 +10,9 @@ type Product struct {
 
 	Category_id  string	`json:"category_id"`
 
-	EmployeeID  *uint	`json:"employee_id"`
-	Employee Employee `gorm:"foreignKey:employee_id"`
+	EmployeeID  uint	`json:"employee_id"`
+	Employee Employee `gorm:"foreignKey:EmployeeID"`
 
-	Order_Product []Order_Product `gorm:"foreignKey:product_id"`
+	Order_Product []Order_Product `gorm:"foreignKey:ProductID"`
 
 }
