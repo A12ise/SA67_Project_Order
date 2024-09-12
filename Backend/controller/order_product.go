@@ -48,16 +48,30 @@ import (
 // 	}
 // 	c.JSON(http.StatusCreated, gin.H{"message": "order product created successfully"})
 // }
-
 func GetOrderProductsByOrderID(c *gin.Context) {
-	ID := c.Param("id")
-	var orderproduct []entity.Order
- 
-	db := config.DB()
-	results := db.Raw("SELECT * FROM Order_Product left join Order on Order.order_id = Order_Product.order_id").Find(&orderproduct, ID)
-	 if results.Error != nil {
-		 c.JSON(http.StatusInternalServerError, gin.H{"error": results.Error.Error()})
-		 return
-	 }
-	 c.JSON(http.StatusOK, orderproduct)
- }
+    // Get the order ID from the URL parameter
+    ID := c.Param("id")
+
+    // Define a slice to store the result
+    var orderproduct []entity.Order_Product
+
+    // Get a DB instance
+    db := config.DB()
+
+    // Use the order ID in the query to filter the records
+    results := db.Raw(`
+        SELECT * FROM Order_Products
+        LEFT JOIN "order" ON "order".order_id = order_product.order_id 
+        WHERE Order_Product.order_id = ?`, ID).Scan(&orderproduct)
+
+    // Check for errors in the query
+    if results.Error != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": results.Error.Error()})
+        return
+    }
+
+    // Respond with the result if successful
+    c.JSON(http.StatusOK, orderproduct)
+}
+
+
