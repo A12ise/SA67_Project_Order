@@ -21,6 +21,6 @@ type Employee struct{
 
 	Members			[]Member	`gorm:"foreignKey:EmployeeID"`
 	Booking 		[]Booking	`gorm:"foreignKey:EmployeeID"`
-	Order 			[]Order 	`gorm:"foreignKey:EmployeeID"`
+	Orders 			[]Order 	`gorm:"foreignKey:EmployeeID"`
 	Product 		[]Product 	`gorm:"foreignKey:EmployeeID"`
 }
