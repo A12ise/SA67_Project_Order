@@ -16,7 +16,7 @@ go get -u github.com/dgrijalva/jwt-go
 
 go get -u golang.org/x/crypto@v0.16.0
 ```
-#Frontend installation
+# Frontend installation
 Install this first before using frontend.
 
 ```bash
