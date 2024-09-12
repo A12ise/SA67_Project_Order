@@ -7,5 +7,5 @@ type Status_Order struct {
 
 	Status_Order_name string `json:"status_order_name"`
 
-	Order []Order `gorm:"foreignKey:status_order_id"`
+	Order []Order `gorm:"foreignKey:StatusOrderID"`
 }
