@@ -8,5 +8,5 @@ type Gender struct{
 	gorm.Model
 	Name			string
 			
-	Employees 		[]Employee 		`gorm:"foreignKey:gender_id"`
+	Employees 		[]Employee 		`gorm:"foreignKey:GenderID"`
 }
