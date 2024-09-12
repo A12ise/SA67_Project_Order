@@ -6,7 +6,7 @@ To set up the backend, you'll need to install go first.
 
 Run the following commands to install the necessary Go packages:
 go get -u github.com/gin-gonic/gin
-
+```bash
 go get -u gorm.io/gorm
 
 go get -u gorm.io/driver/sqlite
