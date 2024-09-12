@@ -50,21 +50,25 @@ function OrderDetail() {
             title: "ลำดับ",
             dataIndex: "ID",
             key: "id",
+            align: "center",
         },
         {
             title: "ประเภทสินค้า",
             dataIndex: "ProductType",
             key: "category_id",
+            align: "center",
         },
         {
             title: "ชื่ออาหาร",
             dataIndex: "ProductName",
             key: "product_name",
+            align: "center",
         },
         {
             title: "จำนวน",
-            dataIndex: "Quantity",
             key: "quantity",
+            align: "center",
+            render: (record: any) => <>{record.Order_Products?.quantity || "N/A"}</>,
         }
     ];
 
