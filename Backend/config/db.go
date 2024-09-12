@@ -38,25 +38,27 @@ func SetupDatabase() {
       &entity.Package{},
 	)
 
-   booking1 := entity.Booking{NumberOfCustomer: 4, Package: 139, Table_id: 66, Member_id: 467}
-
    orderproduct1 := entity.Order_Product{Quantity: 3}
 
-   TableFourSeat1 := entity.Table{TableType: "F1", TableStatusID: 1}
-   TableFourSeat2 := entity.Table{TableType: "F2", TableStatusID: 1}
-   TableFourSeat3 := entity.Table{TableType: "F3", TableStatusID: 1}
-   TableFourSeat4 := entity.Table{TableType: "F4", TableStatusID: 1}
-   TableFourSeat5 := entity.Table{TableType: "F5", TableStatusID: 1}
-   TableFourSeat6 := entity.Table{TableType: "F6", TableStatusID: 1}
-   TableSixSeat1 := entity.Table{TableType: "S1", TableStatusID: 1}
-   TableSixSeat2 := entity.Table{TableType: "S2", TableStatusID: 1}
-   TableSixSeat3 := entity.Table{TableType: "S3", TableStatusID: 1}
-   TableSixSeat4 := entity.Table{TableType: "S4", TableStatusID: 1}
-   TableEightSeat1 := entity.Table{TableType: "E1", TableStatusID: 1}
-   TableEightSeat2 := entity.Table{TableType: "E2", TableStatusID: 1}
+   TableFourSeat1 := entity.Table{TableType: "F1"}
+   TableFourSeat2 := entity.Table{TableType: "F2"}
+   TableFourSeat3 := entity.Table{TableType: "F3"}
+   TableFourSeat4 := entity.Table{TableType: "F4"}
+   TableFourSeat5 := entity.Table{TableType: "F5"}
+   TableFourSeat6 := entity.Table{TableType: "F6"}
+   TableSixSeat1 := entity.Table{TableType: "S1"}
+   TableSixSeat2 := entity.Table{TableType: "S2"}
+   TableSixSeat3 := entity.Table{TableType: "S3"}
+   TableSixSeat4 := entity.Table{TableType: "S4"}
+   TableEightSeat1 := entity.Table{TableType: "E1"}
+   TableEightSeat2 := entity.Table{TableType: "E2"}
    
    status1 := entity.Status_Order{Status_Order_name: "เสิร์ฟเรียบร้อย"}
 	status2 := entity.Status_Order{Status_Order_name: "รอเสิร์ฟ"}
+
+   Booking1 := entity.Booking{TableID: 1}
+   Booking2 := entity.Booking{TableID: 7}
+   Booking3 := entity.Booking{TableID: 11}
 
    order1 := entity.Order{Name: "test"}
 
@@ -85,7 +87,22 @@ func SetupDatabase() {
    db.FirstOrCreate(&status1, &entity.Status_Order{Status_Order_name: "เสิร์ฟเรียบร้อย"})
    db.FirstOrCreate(&status2, &entity.Status_Order{Status_Order_name: "รอเสิร์ฟ"})
 
-   db.FirstOrCreate(&booking1, &entity.Booking{Number_of_customers: 4, Package: 139, Table_id: 66, Member_id: 467})
+   db.FirstOrCreate(&TableFourSeat1, &entity.Table{TableType: "F1"})
+   db.FirstOrCreate(&TableFourSeat2, &entity.Table{TableType: "F2"})
+   db.FirstOrCreate(&TableFourSeat3, &entity.Table{TableType: "F3"})
+   db.FirstOrCreate(&TableFourSeat4, &entity.Table{TableType: "F4"})
+   db.FirstOrCreate(&TableFourSeat5, &entity.Table{TableType: "F5"})
+   db.FirstOrCreate(&TableFourSeat6, &entity.Table{TableType: "F6"})
+   db.FirstOrCreate(&TableSixSeat1, &entity.Table{TableType: "S1"})
+   db.FirstOrCreate(&TableSixSeat2, &entity.Table{TableType: "S2"})
+   db.FirstOrCreate(&TableSixSeat3, &entity.Table{TableType: "S3"})
+   db.FirstOrCreate(&TableSixSeat4, &entity.Table{TableType: "S4"})
+   db.FirstOrCreate(&TableEightSeat1, &entity.Table{TableType: "E1"})
+   db.FirstOrCreate(&TableEightSeat2, &entity.Table{TableType: "E2"})
+
+   db.FirstOrCreate(&Booking1, &entity.Booking{TableID: 1})
+   db.FirstOrCreate(&Booking2, &entity.Booking{TableID: 7})
+   db.FirstOrCreate(&Booking3, &entity.Booking{TableID: 11})
 
    db.FirstOrCreate(&orderproduct1, &entity.Order_Product{Quantity: 3})
 
