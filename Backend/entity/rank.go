@@ -9,5 +9,5 @@ type Rank struct{
 	Name 		string		
 	Discount	float64	
 
-	Members 		[]Member 		`gorm:"foreignKey:rank_id"`
+	Members 		[]Member 		`gorm:"foreignKey:RankID"`
 }
