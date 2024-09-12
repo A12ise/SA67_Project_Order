@@ -3,7 +3,7 @@ package middlewares
 import (
    "net/http"
    "strings"
-   "github./A12ise/SA67_Project_Order/services"
+   "github.com/A12ise/SA67_Project_Order/services"
    "github.com/gin-gonic/gin"
 )
 
