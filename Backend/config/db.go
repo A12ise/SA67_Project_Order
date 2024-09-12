@@ -38,7 +38,7 @@ func SetupDatabase() {
       &entity.Package{},
 	)
 
-   orderproduct1 := entity.Order_Product{Quantity: 3}
+   orderproduct1 := entity.Order_Product{Quantity: 3, OrderID:1}
 
    TableFourSeat1 := entity.Table{TableType: "F1"}
    TableFourSeat2 := entity.Table{TableType: "F2"}
@@ -60,7 +60,8 @@ func SetupDatabase() {
    Booking2 := entity.Booking{TableID: 7}
    Booking3 := entity.Booking{TableID: 11}
 
-   order1 := entity.Order{Name: "test"}
+   order1 := entity.Order{BookingID: 1, Status_OrderID: 2}
+   order2 := entity.Order{BookingID: 2, EmployeeID: 1, Status_OrderID: 1}
 
    GenderMale := entity.Gender{Name: "Male"}
    GenderFemale := entity.Gender{Name: "Female"}
@@ -71,8 +72,6 @@ func SetupDatabase() {
    RankBronze := entity.Rank{Name: "Bronze", Discount: 0.03}
    RankSilver := entity.Rank{Name: "Silver", Discount: 0.05}
    RankGold := entity.Rank{Name: "Gold", Discount: 0.07}
-
-   db.FirstOrCreate(&order1, &entity.Order{Name: "test"})
 
    db.FirstOrCreate(&RankBronze, &entity.Rank{Name: "Bronze", Discount: 0.03})
    db.FirstOrCreate(&RankSilver, &entity.Rank{Name: "Silver", Discount: 0.05})
@@ -104,7 +103,12 @@ func SetupDatabase() {
    db.FirstOrCreate(&Booking2, &entity.Booking{TableID: 7})
    db.FirstOrCreate(&Booking3, &entity.Booking{TableID: 11})
 
-   db.FirstOrCreate(&orderproduct1, &entity.Order_Product{Quantity: 3})
+   db.FirstOrCreate(&order1, &entity.Order{BookingID: 1, Status_OrderID: 2})
+   db.FirstOrCreate(&order2, &entity.Order{BookingID: 2, EmployeeID: 1, Status_OrderID: 1})
+
+   db.FirstOrCreate(&orderproduct1, &entity.Order_Product{Quantity: 3, OrderID:1})
+
+
 
 
    hashedPassword, _ := HashPassword("12345")
