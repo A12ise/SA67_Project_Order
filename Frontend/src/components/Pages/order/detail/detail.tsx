@@ -1,24 +1,78 @@
 import React, { useState, useEffect } from "react";
-import { Space, Table, Button, Col, Row, Modal, message, Form, Layout } from "antd";
+import { Table, Button, Col, Row, Modal, message, Form } from "antd";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { OrderProductInterface } from "../../../../interfaces/OrderProduct";
 import { GetOrderProductsByOrderID } from "../../../../services/https";
+import { OrderInterface } from "../../../../interfaces/Order";
+import { ProductInterface } from "../../../../interfaces/Product";
+import { GetOrders, GetProductsByID, UpdateOrder } from "../../../../services/https";
 
 function OrderDetail() {
     const navigate = useNavigate();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [orderproduct, setOrderProductByOrderID] = useState<OrderProductInterface[]>([]);
+    const [product, setProductsByID] = useState<ProductInterface[]>([]);
+    const [order, setOrders] = useState<OrderInterface[]>([]);
     const [form] = Form.useForm(); // Ant Design form
     const { id } = useParams<{ id: string }>();
 
-    const getOrderProductByOrderId = async (id: string) => {
+    const getOrders = async () => {
+      try {
+        const res = await GetOrders(); // ดึงข้อมูลจาก API
+        if (res.status === 200) {
+          setOrders(res.data); // เซ็ตข้อมูลที่ได้จาก API
+        } else {
+          setOrders([]);
+          message.error(res.data.error || "ไม่สามารถดึงข้อมูลได้");
+        }
+      } catch (error) {
+        setOrders([]);
+        message.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
+      }
+    };
+
+    const onFinish = async (values: OrderInterface) => {
+      const res = await UpdateOrder(id, values);
+      if (res.status === 200) {
+        message.open({
+          type: "success",
+          content: res.data.message,
+        });
+        setTimeout(() => {
+          navigate("/order");
+        }, 2000);
+      } else {
+        message.open({
+          type: "error",
+          content: res.data.error,
+        });
+      }
+    };
+
+    const getProductByID = async (id: string) => {
+      let res = await GetProductsByID(id);
+      if (res.status === 200) {
+        // Setting the fields of the form with the fetched data
+        form.setFieldsValue({
+          ProductName: res.data.ProductName,
+          CategoryID: res.data.CategoryID,
+        });
+        // Update the state with the fetched order product details
+        setProductsByID(res.data);
+      } else {
+        message.error("ไม่พบข้อมูล");
+        setTimeout(() => {
+          navigate("/order");
+        }, 2000);
+      }
+    };
+
+    const getOrderProductByOrderID = async (id: string) => {
       let res = await GetOrderProductsByOrderID(id);
       if (res.status === 200) {
         // Setting the fields of the form with the fetched data
         form.setFieldsValue({
           Quantity: res.data.Quantity,
-          OrderID: res.data.OrderID,
-          ProductID: res.data.ProductID,
         });
         // Update the state with the fetched order product details
         setOrderProductByOrderID(res.data);
@@ -33,8 +87,10 @@ function OrderDetail() {
     // You might need to call this function in useEffect to fetch the product details when the component mounts
     useEffect(() => {
       if (id) {
-        getOrderProductByOrderId(id);
+        getOrderProductByOrderID(id);
+        getProductByID(id);
       }
+      getOrders();
     }, [id]);
 
     const showModal = () => {
@@ -45,7 +101,7 @@ function OrderDetail() {
       setIsModalVisible(false);
     };
 
-    const columns = [
+    const column = [
         {
             title: "ลำดับ",
             dataIndex: "ID",
@@ -54,26 +110,27 @@ function OrderDetail() {
         },
         {
             title: "ประเภทสินค้า",
-            dataIndex: "ProductType",
             key: "category_id",
             align: "center",
+            render: (record: any) => <>{record.Products?.category_id || "N/A"}</>,
         },
         {
             title: "ชื่ออาหาร",
-            dataIndex: "ProductName",
             key: "product_name",
             align: "center",
+            render: (record: any) => <>{record.Products?.product_name || "N/A"}</>,
         },
         {
             title: "จำนวน",
+            dataIndex: "quantity",
             key: "quantity",
             align: "center",
-            render: (record: any) => <>{record.Order_Products?.quantity || "N/A"}</>,
         }
     ];
 
     return (
         <>
+          <Form onFinish={onFinish}>
             <Row>
                 <Col style={{ marginTop: "-20px" }}>
                     <h2>รายละเอียดออเดอร์</h2>
@@ -81,7 +138,7 @@ function OrderDetail() {
             </Row>
             <Row>
                 <Col span={24}>
-                    <Table dataSource={orderproduct} columns={columns} pagination={false}/>
+                    <Table dataSource={orderproduct} columns={column} pagination={false}/>
                 </Col>
             </Row>
 
@@ -117,6 +174,7 @@ function OrderDetail() {
             >
               <p>คุณต้องการยืนยันการเสิร์ฟอาหารหรือไม่?</p>
             </Modal>
+          </Form>
         </>
     );
 }

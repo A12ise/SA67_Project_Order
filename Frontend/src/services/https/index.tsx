@@ -1,6 +1,7 @@
 import { EmployeeInterface } from "../../interfaces/Employee";
 import { LoginInterface } from "../../interfaces/Login";
 import { MemberInterface } from "../../interfaces/Member";
+import { OrderInterface } from "../../interfaces/Order";
 import axios from "axios";
 
 const apiUrl = "http://localhost:8000";
@@ -126,6 +127,13 @@ async function GetOrders() {
     .catch((e) => e.response);
 }
 
+async function UpdateOrder(id: string | undefined, data: OrderInterface) {
+  return await axios
+    .patch(`${apiUrl}/order/${id}`, data, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 async function GetOrderProducts() {
   return await axios
     .get(`${apiUrl}/order/detail`, requestOptions)
@@ -139,6 +147,15 @@ async function GetOrderProductsByOrderID(id: string | undefined) {
     .then((res) => res)
     .catch((e) => e.response);
 }
+
+async function GetProductsByID(id: string | undefined) {
+  return await axios
+    .get(`${apiUrl}/order/detail/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
+
 
 export {
   SignIn,
@@ -157,6 +174,8 @@ export {
   GetRanks,
   GetStatusOrders,
   GetOrders,
+  UpdateOrder,
   GetOrderProducts,
   GetOrderProductsByOrderID,
+  GetProductsByID,
 };

@@ -59,17 +59,22 @@ func GetOrderProductsByOrderID(c *gin.Context) {
     db := config.DB()
 
     // Use the order ID in the query to filter the records
-    results := db.Preload("Order").Raw(`
-        SELECT * FROM Order_Products
-        INNER JOIN orders ON orders.id = order_products.order_id 
-        WHERE Order_Products.order_id = ?`, ID).Scan(&orderproduct)
+    results := db.
+    Preload("Orders").
+    Preload("Products").
+    Joins("JOIN orders ON orders.id = order_products.order_id").
+    Joins("JOIN products ON products.id = order_products.product_id").
+    Where("order_products.order_id = ?", ID).
+    Select("Order_products.*, Orders.*, Products.*").
+    Find(&orderproduct)
+
+
 
     // Check for errors in the query
     if results.Error != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": results.Error.Error()})
         return
     }
-
     // Respond with the result if successful
     c.JSON(http.StatusOK, orderproduct)
 }

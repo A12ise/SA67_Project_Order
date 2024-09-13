@@ -6,7 +6,7 @@ import {
   DashboardOutlined,
   LogoutOutlined,
   DollarOutlined,
-  AppstoreOutlined,
+  OrderedListOutlined,
   SolutionOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -97,7 +97,7 @@ function Sider() {
   return (
     <>
       {contextHolder}
-      <Sider collapsed={collapsed}>
+      <Sider collapsed={collapsed} style={{backgroundColor: '#FF7D29'}}>
         <div
           style={{
             display: "flex",
@@ -196,8 +196,8 @@ function Sider() {
 
               <Menu.Item key="Order" onClick={() => setCurrentPage("Order")}>
                 <Link to="/order">
-                  <AppstoreOutlined />
-                  <span>order</span>
+                  <OrderedListOutlined />
+                  <span>รายละเอียดออเดอร์</span>
                 </Link>
               </Menu.Item>
 

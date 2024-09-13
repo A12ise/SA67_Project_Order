@@ -52,7 +52,9 @@ func main() {
 
        r.GET("/status_order", controller.GetStatusOrders)
        r.GET("/order", controller.GetOrders)
+       r.GET("/order/:id", controller.UpdateOrder)
        r.GET("/order/detail/:id", controller.GetOrderProductsByOrderID)
+       r.GET("/product/:id", controller.GetProductsByID)
    }
 
    r.GET("/", func(c *gin.Context) {

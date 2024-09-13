@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Table, Row, Col, Spin, Button, message } from "antd";
 import { CheckCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useNavigate, Link } from "react-router-dom";
-import { StatusOrderInterface } from "../../../interfaces/StatusOrder";
 import { GetStatusOrders, GetOrders } from "../../../services/https";
 import type { ColumnsType } from "antd/es/table";
 import { OrderInterface } from "../../../interfaces/Order";
+import { StatusOrderInterface } from "../../../interfaces/StatusOrder";
 
 function Order() {
   const [statusorder, setStatusOrders] = useState<StatusOrderInterface[]>([]);
