@@ -63,6 +63,7 @@ function Order() {
     {
       title: "สถานะออเดอร์",
       key: "status_order_name",
+      sorter: (a, b) => a.Status_Order?.status_order_name.localeCompare(b.Status_Order?.status_order_name),
       align: "center",
       render: (record) => {
         return (

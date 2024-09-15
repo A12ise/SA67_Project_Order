@@ -104,9 +104,9 @@ function OrderDetail() {
     const column = [
         {
             title: "ลำดับ",
-            dataIndex: "ID",
             key: "id",
             align: "center",
+            render: (text, record, index) => index + 1,
         },
         {
             title: "ประเภทสินค้า",
