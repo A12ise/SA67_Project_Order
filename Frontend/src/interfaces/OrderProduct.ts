@@ -3,5 +3,4 @@ export interface OrderProductInterface {
     OrderID?: number;
     Quantity?: number;
     ProductID?: number;
-    ProductName?: string;
 }

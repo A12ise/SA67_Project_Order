@@ -113,7 +113,7 @@ function Order() {
         </Col>
       </Row>
 
-      <Table dataSource={order} columns={columns} pagination={false} />
+      <Table dataSource={order} columns={columns} pagination={{ pageSize: 6 }} />
     </>
   );
 }

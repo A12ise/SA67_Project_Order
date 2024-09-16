@@ -129,7 +129,11 @@ async function GetOrders() {
 
 async function UpdateOrder(id: string | undefined, data: OrderInterface) {
   return await axios
-    .patch(`${apiUrl}/order/${id}`, data, requestOptions)
+    .patch(
+      `${apiUrl}/order/${id}`, 
+      data, 
+      requestOptions
+    )
     .then((res) => res)
     .catch((e) => e.response);
 }
