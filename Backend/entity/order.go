@@ -10,7 +10,7 @@ type Order struct {
 	Booking Booking `gorm:"foreignKey:BookingID"`
 
 	EmployeeID 	uint `json:"employee_id"`
-	Employee Employee `gorm:"foreignKey:employee_id"`
+	Employee Employee `gorm:"foreignKey:EmployeeID"`
 
 	Status_OrderID 		uint `json:"status_order_id"`
 	Status_Order Status_Order `gorm:"foreignKey:Status_OrderID"`
