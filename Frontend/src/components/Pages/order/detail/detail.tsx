@@ -33,10 +33,12 @@ function OrderDetail() {
     }
   };
 
-  console.log("orderstatusID =", order);
+  console.log("EmployeeID =", employeeID);
 
   const onFinish = async (values: OrderInterface) => {
     values.EmployeeID = Number(employeeID); // Ensure EmployeeID is a valid number
+    console.log("Values being sent to UpdateOrder:", values, "ID:", id); // Log values and id
+
     setIsSubmitting(true); // Disable the button after the first click
 
     try {
@@ -113,10 +115,6 @@ function OrderDetail() {
     setIsSubmitting(false); // Reset submit state in case of cancel
   };
 
-  const handleBack = () => {
-    navigate("/order"); // Redirect to '/order' when clicking "ย้อนกลับ"
-  };
-
   const column = [
     {
       title: "ลำดับ",
@@ -159,34 +157,19 @@ function OrderDetail() {
         </Row>
 
         <div style={{ textAlign: 'right' }}>
-          {order === 1 ? (
-            <Button
-              type="primary"
-              size="large"
-              style={{
-                marginTop: "25px",
-                backgroundColor: '#4CAF50',
-                borderColor: '#4CAF50',
-              }}
-              onClick={handleBack}  // Navigate back to '/order'
-            >
-              ย้อนกลับ
-            </Button>
-          ) : (
-            <Button
-              type="primary"
-              size="large"
-              style={{
-                marginTop: "25px",
-                backgroundColor: '#4CAF50',
-                borderColor: '#4CAF50',
-              }}
-              onClick={showModal}
-              disabled={isSubmitting} // Disable button if it's submitting
-            >
-              ยืนยันการเสิร์ฟอาหาร
-            </Button>
-          )}
+          <Button
+            type="primary"
+            size="large"
+            style={{
+              marginTop: "25px",
+              backgroundColor: '#4CAF50',
+              borderColor: '#4CAF50',
+            }}
+            onClick={showModal}
+            disabled={isSubmitting} // Disable button if it's submitting
+          >
+            ยืนยันการเสิร์ฟอาหาร
+          </Button>
         </div>
 
         <Modal
