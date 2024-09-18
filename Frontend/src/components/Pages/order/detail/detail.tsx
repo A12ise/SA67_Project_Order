@@ -33,12 +33,8 @@ function OrderDetail() {
     }
   };
 
-  console.log("EmployeeID =", employeeID);
-
   const onFinish = async (values: OrderInterface) => {
     values.EmployeeID = Number(employeeID); // Ensure EmployeeID is a valid number
-    console.log("Values being sent to UpdateOrder:", values, "ID:", id); // Log values and id
-
     setIsSubmitting(true); // Disable the button after the first click
 
     try {
