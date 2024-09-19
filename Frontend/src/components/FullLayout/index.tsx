@@ -12,6 +12,7 @@ import EmployeeEdit from "../Pages/Employee/edit";
 import Sider from "../Sider/sider";
 import Order from "../Pages/order/order";
 import OrderDetail from "../Pages/order/detail/detail"
+import Customer from "../Pages/customer/customer"
 
 const {Content} = Layout;
 
@@ -51,6 +52,7 @@ const FullLayout: React.FC = () => {
               <Route path="/employee/edit/:id" element={<EmployeeEdit />} />
               <Route path="/order" element={<Order />} />
               <Route path="/order/detail/:id" element={<OrderDetail />} />
+              <Route path="/customer" element={<Customer />} />
             </Routes>
           </div>
         </Content>
