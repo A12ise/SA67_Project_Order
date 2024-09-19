@@ -1,37 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Col, Row, Modal, message, Form } from "antd";
+import { Table, Button, Col, Row, Modal, message, Form, Card, Statistic } from "antd";
+import { FileDoneOutlined } from "@ant-design/icons";
+import type { ColumnsType } from "antd/es/table";
 import { useNavigate, useParams } from "react-router-dom";
 import { OrderProductInterface } from "../../../../interfaces/OrderProduct";
 import { GetOrderProductsByOrderID } from "../../../../services/https";
 import { OrderInterface } from "../../../../interfaces/Order";
 import { ProductInterface } from "../../../../interfaces/Product";
-import { GetOrders, GetProductsByID, UpdateOrder } from "../../../../services/https";
+import { GetProductsByID, UpdateOrder } from "../../../../services/https";
 
 function OrderDetail() {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [orderproduct, setOrderProductByOrderID] = useState<OrderProductInterface[]>([]);
   const [product, setProductsByID] = useState<ProductInterface[]>([]);
-  const [order, setOrders] = useState<OrderInterface[]>([]);
   const [form] = Form.useForm(); // Ant Design form
   const { id } = useParams<{ id: string }>();
   const employeeID = localStorage.getItem("id");
   const [isSubmitting, setIsSubmitting] = useState(false); // Track button state
-
-  const getOrders = async () => {
-    try {
-      const res = await GetOrders(); // ดึงข้อมูลจาก API
-      if (res.status === 200) {
-        setOrders(res.data.StatusOrderID); // เซ็ตข้อมูลที่ได้จาก API
-      } else {
-        setOrders([]);
-        message.error(res.data.error || "ไม่สามารถดึงข้อมูลได้");
-      }
-    } catch (error) {
-      setOrders([]);
-      message.error("เกิดข้อผิดพลาดในการดึงข้อมูล");
-    }
-  };
 
   const onFinish = async (values: OrderInterface) => {
     values.EmployeeID = Number(employeeID); // Ensure EmployeeID is a valid number
@@ -99,7 +85,6 @@ function OrderDetail() {
       getOrderProductByOrderID(id);
       getProductByID(id);
     }
-    getOrders();
   }, [id]);
 
   const showModal = () => {
@@ -110,8 +95,8 @@ function OrderDetail() {
     setIsModalVisible(false);
     setIsSubmitting(false); // Reset submit state in case of cancel
   };
-
-  const column = [
+  
+  const column: ColumnsType<OrderProductInterface> = [
     {
       title: "ลำดับ",
       key: "id",
@@ -126,7 +111,7 @@ function OrderDetail() {
     },
     {
       title: "ชื่ออาหาร",
-      key: "product_name",
+      key: "product_id",
       align: "center",
       render: (record: any) => <>{record.Products?.product_name || "N/A"}</>,
     },
@@ -144,6 +129,20 @@ function OrderDetail() {
         <Row>
           <Col style={{ marginTop: "-20px" }}>
             <h2>รายละเอียดออเดอร์</h2>
+          </Col>
+          <Col>
+            <Card
+              style={{
+                boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                borderRadius: '20px',
+              }}>
+              <Statistic
+                  title="ทำรายการสำเร็จ"
+                  value={id}
+                  valueStyle={{ color: "black" }}
+                  prefix={<FileDoneOutlined />}
+                />
+            </Card>
           </Col>
         </Row>
         <Row>
