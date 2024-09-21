@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "../../App.css";
-import { Breadcrumb, Layout, Menu, theme, message } from "antd";
+import { Breadcrumb, Layout, theme, message } from "antd";
 import Dashboard from "../Pages/dashboard";
 import Member from "../Pages/member/member";
 import MemberCreate from "../Pages/member/create";
@@ -12,7 +12,6 @@ import EmployeeEdit from "../Pages/Employee/edit";
 import Sider from "../Sider/sider";
 import Order from "../Pages/order/order";
 import OrderDetail from "../Pages/order/detail/detail"
-import Customer from "../Pages/customer/customer"
 
 const {Content} = Layout;
 
@@ -52,7 +51,6 @@ const FullLayout: React.FC = () => {
               <Route path="/employee/edit/:id" element={<EmployeeEdit />} />
               <Route path="/order" element={<Order />} />
               <Route path="/order/detail/:id" element={<OrderDetail />} />
-              <Route path="/customer" element={<Customer />} />
             </Routes>
           </div>
         </Content>

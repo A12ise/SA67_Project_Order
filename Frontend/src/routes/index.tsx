@@ -1,6 +1,7 @@
 import { useRoutes, RouteObject } from "react-router-dom";
 import AdminRoutes from "./AdminRoutes";
 import MainRoutes from "./MainRoutes";
+import CustomerRoutes from "./CustomerRoutes";
 
 function ConfigRoutes() {
   const isLoggedIn = localStorage.getItem("isLogin") === "true";
@@ -9,7 +10,7 @@ function ConfigRoutes() {
   if (isLoggedIn) {
     routes = [AdminRoutes(isLoggedIn), MainRoutes()];
   } else {
-    routes = [MainRoutes()];
+    routes = [CustomerRoutes(), MainRoutes()];
   }
 
   return useRoutes(routes);
