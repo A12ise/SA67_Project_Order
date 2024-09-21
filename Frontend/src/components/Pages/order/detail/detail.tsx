@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button, Col, Row, Modal, message, Form, Card, Statistic } from "antd";
-import { FileDoneOutlined } from "@ant-design/icons";
+import { DatabaseOutlined, ContainerOutlined } from "@ant-design/icons";
 import type { ColumnsType } from "antd/es/table";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { OrderProductInterface } from "../../../../interfaces/OrderProduct";
 import { GetOrderProductsByOrderID } from "../../../../services/https";
 import { OrderInterface } from "../../../../interfaces/Order";
 import { ProductInterface } from "../../../../interfaces/Product";
-import { GetProductsByID, UpdateOrder } from "../../../../services/https";
+import { GetProductsByID, UpdateOrder, GetOrderByID } from "../../../../services/https";
 
 function OrderDetail() {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [orderproduct, setOrderProductByOrderID] = useState<OrderProductInterface[]>([]);
   const [product, setProductsByID] = useState<ProductInterface[]>([]);
+  const [order, setOrderByID] = useState<OrderInterface[]>([]);
   const [form] = Form.useForm(); // Ant Design form
   const { id } = useParams<{ id: string }>();
   const employeeID = localStorage.getItem("id");
@@ -46,6 +47,22 @@ function OrderDetail() {
         content: "Cannot connect to the server",
       });
       setIsSubmitting(false); // Re-enable the button in case of error
+    }
+  };
+
+  const getOrderByID = async (id: string) => {
+    let res = await GetOrderByID(id);
+    if (res.status === 200) {
+      form.setFieldsValue({
+        StatusOrderID: res.data.StatusOrderID,
+        BookingID: res.data.BookingID,
+      });
+      setOrderByID(res.data);
+    } else {
+      message.error("ไม่พบข้อมูล");
+      setTimeout(() => {
+        navigate("/order");
+      }, 2000);
     }
   };
 
@@ -84,8 +101,9 @@ function OrderDetail() {
     if (id) {
       getOrderProductByOrderID(id);
       getProductByID(id);
+      getOrderByID(id);
     }
-  }, [id]);
+  }, [id, order.Status_Order?.ID]);
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -95,7 +113,7 @@ function OrderDetail() {
     setIsModalVisible(false);
     setIsSubmitting(false); // Reset submit state in case of cancel
   };
-  
+
   const column: ColumnsType<OrderProductInterface> = [
     {
       title: "ลำดับ",
@@ -130,49 +148,79 @@ function OrderDetail() {
           <Col style={{ marginTop: "-20px" }}>
             <h2>รายละเอียดออเดอร์</h2>
           </Col>
+
+        </Row>
+        <Row>
           <Col>
             <Card
               style={{
-                boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                boxShadow: "rgba(100, 100, 111, 0) 0px 7px 29px 0px",
                 borderRadius: '20px',
+                width: '150px'
               }}>
               <Statistic
-                  title="ทำรายการสำเร็จ"
-                  value={id}
-                  valueStyle={{ color: "black" }}
-                  prefix={<FileDoneOutlined />}
-                />
+                title="ออเดอร์ที่"
+                value={id}
+                valueStyle={{ color: "black" }}
+                prefix={<ContainerOutlined />}
+              />
             </Card>
           </Col>
+          <Col>
+            <Card
+              style={{
+                boxShadow: "rgba(100, 100, 111, 0) 0px 7px 29px 0px",
+                borderRadius: '20px',
+                width: '150px',
+                marginLeft: '20px'
+              }}>
+              <Statistic
+                title="หมายเลขโต๊ะ"
+                value={order.Booking?.Table?.table_type}
+                valueStyle={{ color: "black" }}
+                prefix={<DatabaseOutlined />}
+              />
+            </Card>
+          </Col>
+
         </Row>
         <Row>
-          <Col span={24}>
-            <Table dataSource={orderproduct} columns={column} pagination={{ pageSize: 10 }} />
+          <Col span={24} style={{ marginTop: "20px" }}>
+            <Table dataSource={orderproduct} columns={column} pagination={{ pageSize: 6 }} />
           </Col>
         </Row>
 
-        <div style={{ textAlign: 'right' }}>
-          <Button
-            type="primary"
-            size="large"
-            style={{
-              marginTop: "25px",
-              backgroundColor: '#4CAF50',
-              borderColor: '#4CAF50',
-            }}
-            onClick={showModal}
-            disabled={isSubmitting} // Disable button if it's submitting
-          >
-            ยืนยันการเสิร์ฟอาหาร
-          </Button>
-        </div>
+        <Row justify="space-between">
+          <Col>
+            <Link to="/order">
+              <Button type="primary" style={{ height: '40px', width: '80px' }}>ย้อนกลับ</Button>
+            </Link>
+          </Col>
+
+          <Col>
+            <Button
+              type="primary"
+              size="large"
+              style={{
+                backgroundColor: order.Status_Order?.ID === 1 ? 'rgba(255, 255, 255, 0.8)' : '#4CAF50', 
+                borderColor: order.Status_Order?.ID === 1 ? 'rgba(204, 204, 204, 0.8)' : '#4CAF50', 
+                color: order.Status_Order?.ID === 1 ? 'rgba(0, 0, 0, 0.5)' : '#FFFFFF', 
+                opacity: order.Status_Order?.ID === 1 ? 0.5 : 1, 
+              }}
+              onClick={showModal}
+              disabled={order.Status_Order?.ID === 1} // Disable the button if Status_order?.ID is 1
+            >
+              ยืนยันการเสิร์ฟอาหาร
+            </Button>
+          </Col>
+        </Row>
 
         <Modal
           title="ยืนยันการเสิร์ฟ"
           visible={isModalVisible}
           onCancel={handleCancel}
           footer={[
-            <Button key="back" size="small" onClick={handleCancel} style={{ height: '40px', width: '80px', margin: '15px' }}>
+            <Button key="back" size="small" onClick={handleCancel} style={{ height: '40px', width: '80px', marginTop: '5px' }}>
               ยกเลิก
             </Button>,
             <Button
@@ -187,7 +235,7 @@ function OrderDetail() {
             </Button>,
           ]}
         >
-          <p>คุณต้องการยืนยันการเสิร์ฟอาหารหรือไม่?</p>
+          <p>ยืนยันการเสิร์ฟอาหารหรือไม่?</p>
         </Modal>
       </Form>
     </>

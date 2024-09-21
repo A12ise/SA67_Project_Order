@@ -1,7 +1,6 @@
 import React from "react";
 import { Layout, Breadcrumb, message } from "antd";
 import { Routes, Route, Outlet } from "react-router-dom"; // Import Outlet for nested routes
-import SiderCustomer from "../Sider_Customer/sider_customer"; // Your Sider component
 import Customer from "../Pages/customer/customer"; // Your Customer component
 
 const { Content } = Layout;
@@ -13,7 +12,6 @@ const CustomerLayout: React.FC = () => {
         <>
             {contextHolder}
             <Layout style={{ minHeight: "100vh" }}>
-                <SiderCustomer />
                 <Layout>
                     <Content style={{ margin: "0 16px" }}>
                         <Breadcrumb style={{ margin: "16px 0" }} />

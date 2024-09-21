@@ -26,6 +26,23 @@ func GetOrders(c *gin.Context) {
 	c.JSON(http.StatusOK, orders)
 }
 
+func GetOrderByID(c *gin.Context) {
+    ID := c.Param("id")
+	var order entity.Order
+
+	db := config.DB()
+	results := db.Preload("Booking").Preload("Booking.Table").Preload("Status_Order").First(&order, ID)
+	if results.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": results.Error.Error()})
+		return
+	}
+	if order.ID == 0 {
+		c.JSON(http.StatusNoContent, gin.H{})
+		return
+	}
+	c.JSON(http.StatusOK, order)
+}
+
 // UpdateOrder updates the EmployeeID and Status_OrderID for an order
 func UpdateOrder(c *gin.Context) {
     var order entity.Order

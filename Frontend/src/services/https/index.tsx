@@ -127,6 +127,13 @@ async function GetOrders() {
     .catch((e) => e.response);
 }
 
+async function GetOrderByID(id: string | undefined) {
+  return await axios
+    .get(`${apiUrl}/order/${id}`, requestOptions)
+    .then((res) => res)
+    .catch((e) => e.response);
+}
+
 async function UpdateOrder(id: string | undefined, data: OrderInterface) {
   return await axios
     .patch(
@@ -178,6 +185,7 @@ export {
   GetRanks,
   GetStatusOrders,
   GetOrders,
+  GetOrderByID,
   UpdateOrder,
   GetOrderProducts,
   GetOrderProductsByOrderID,

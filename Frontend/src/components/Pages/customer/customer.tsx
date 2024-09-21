@@ -4,38 +4,26 @@ import { CheckCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useNavigate, Link } from "react-router-dom";
 import Background from "../../../assets/background_customer.webp"
 import "./customer.css"
+import logo from "../../../assets/logo.png"
 
 function Customer() {
     const navigate = useNavigate();
 
     return (
-        <div className="card-container"> {/* Container for centering */}
+        <div>
             <img className="img-background" src={Background} alt="Background" />
-            <Row>
-                <Card className="card-customer">
+            <div className="customer-page">
+                <Card className="card" style={{ justifyContent: 'center', justifyItems: 'center' }}>
                     <Row>
+                        <Col>
+                            <img className="logo" src={logo} alt="Logo" />
+                        </Col>
                         <Card>
-                            <h3>เนื้อสัตว์</h3>
+
                         </Card>
                     </Row>
-                    <Row>
-                        <Card>
-                            <h3>ผัก</h3>
-                        </Card>
-                    </Row>
-                    <Row>
-                        <Card>
-                            <h3>อาหารทะเล</h3>
-                        </Card>
-                    </Row>
-                    <Row>
-                        <Card>
-                            <h3>ขนมหวาน</h3>
-                        </Card>
-                    </Row>
-                    
                 </Card>
-            </Row>
+            </div>
         </div>
     );
 }
