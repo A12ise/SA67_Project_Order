@@ -11,8 +11,8 @@ type Booking struct {
     gorm.Model
     NumberOfCustomer  uint      `json:"number_of_customers"`
 
-    PackageID         uint     `json:"package_id"`
-    Package           Package   `gorm:"foreignKey:PackageID"`
+    PackageID         uint        `json:"package_id"`
+    Package           Package     `json:"package" gorm:"foreignKey:PackageID"`
 
     TableID           uint     `json:"table_id"`
     Table             Table     `gorm:"foreignKey:TableID"`

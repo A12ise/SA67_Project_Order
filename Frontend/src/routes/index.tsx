@@ -8,7 +8,7 @@ function ConfigRoutes() {
   let routes: RouteObject[] = [];
 
   if (isLoggedIn) {
-    routes = [AdminRoutes(isLoggedIn), MainRoutes()];
+    routes = [AdminRoutes(isLoggedIn), MainRoutes(), CustomerRoutes()];
   } else {
     routes = [CustomerRoutes(), MainRoutes()];
   }

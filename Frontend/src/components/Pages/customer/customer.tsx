@@ -18,7 +18,7 @@ function Customer() {
                         <Col>
                             <img className="logo" src={logo} alt="Logo" />
                         </Col>
-                        <Card>
+                        <Card className="card-white">
 
                         </Card>
                     </Row>
